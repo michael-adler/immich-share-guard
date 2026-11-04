@@ -1,0 +1,103 @@
+name: Immich drift
+
+# Checks the latest Immich release's OpenAPI spec against the allowlist
+# (README "Upgrading Immich", step 1) and opens an issue when it finds
+# differences. Each release gets at most one issue: the title names the tag,
+# and an issue with that title and the immich-drift label, open or closed,
+# stops another from being opened. Closing the issue therefore silences that
+# release, and a later release with drift gets its own issue.
+
+on:
+  schedule:
+    - cron: "41 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+# A manual run and a scheduled run at the same time could both find no issue
+# and both open one. Queue them instead.
+concurrency:
+  group: immich-drift
+  cancel-in-progress: false
+
+env:
+  GH_TOKEN: ${{ github.token }}
+  LABEL: immich-drift
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: stable
+      - run: go build ./cmd/immich-share-guard
+
+      - name: Find the latest Immich release
+        id: release
+        run: |
+          tag=$(gh release view -R immich-app/immich --json tagName -q .tagName)
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "Latest Immich release: $tag"
+
+      - name: Check the spec
+        id: check
+        env:
+          TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          curl -sfL -o new-spec.json \
+            "https://raw.githubusercontent.com/immich-app/immich/$TAG/open-api/immich-openapi-specs.json"
+          # Exit status 0 is no drift, 1 is drift, 2 is an error. Only 2
+          # fails the job.
+          set +e
+          ./immich-share-guard -check-spec new-spec.json > drift.txt
+          status=$?
+          set -e
+          cat drift.txt
+          {
+            echo "### Immich $TAG"
+            echo '```'
+            cat drift.txt
+            echo
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          case $status in
+            0) echo "drift=false" >> "$GITHUB_OUTPUT" ;;
+            1) echo "drift=true" >> "$GITHUB_OUTPUT" ;;
+            *) exit "$status" ;;
+          esac
+
+      - name: Open an issue, unless this release already has one
+        if: steps.check.outputs.drift == 'true'
+        env:
+          TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          title="Immich $TAG: share API drift"
+          # gh issue list without --search reads the issues API directly, so
+          # an issue opened by the previous run is always seen. The search
+          # index can lag behind. A failed lookup fails the step (bash runs
+          # with -e) instead of looking like "no issue yet". A label that
+          # doesn't exist yet gives an empty list, not an error.
+          existing=$(T="$title" gh issue list --label "$LABEL" --state all --limit 1000 \
+            --json number,title \
+            --jq 'first(.[] | select(.title == env.T) | .number) // empty')
+          if [ -n "$existing" ]; then
+            echo "Issue #$existing already covers $TAG, not opening another."
+            exit 0
+          fi
+          gh label create "$LABEL" --color D93F0B \
+            --description "Immich release changed the share API" --force
+          {
+            echo "\`-check-spec\` found differences between the allowlist and the spec of Immich [$TAG](https://github.com/immich-app/immich/releases/tag/$TAG)."
+            echo
+            echo "See \"Upgrading Immich\" in the README for how to handle each difference. Closing this issue stops it from being reopened for $TAG."
+            echo
+            echo '```'
+            head -c 60000 drift.txt
+            echo
+            echo '```'
+          } > body.md
+          gh issue create --title "$title" --label "$LABEL" --body-file body.md

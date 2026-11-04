@@ -1,7 +1,9 @@
 # immich-share-guard is a single static binary with no dependencies, so the
 # image holds nothing else. The builder runs on the build host's architecture
 # and cross-compiles for the target.
-FROM --platform=$BUILDPLATFORM golang:1.24-alpine AS build
+# The newest Go release, for its standard library security fixes. go.mod's go
+# line is only the minimum for building from source.
+FROM --platform=$BUILDPLATFORM golang:1.27-alpine AS build
 ARG TARGETOS TARGETARCH
 WORKDIR /src
 COPY go.mod ./
