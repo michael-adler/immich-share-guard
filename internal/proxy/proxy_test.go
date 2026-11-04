@@ -399,7 +399,7 @@ func TestScrubOriginalPath(t *testing.T) {
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		_, _ = io.WriteString(w, `{"id":"`+testAsset+`","originalPath":"/data/library/user/2020/01/x <1>.webp",`+
 			`"exifInfo":{"fileSizeInByte":12345678901234,"latitude":12.345678},`+
-			`"assets":[{"originalPath":"C:\\photos\\y.jpg"}],"tags":[],`+
+			`"assets":[{"originalPath":"C:\\photos\\y.jpg"}],"tags":[],"password":"secret",`+
 			`"owner":{"name":"Test User","email":"user@example.com","profileImagePath":"/data/profile/x.jpg"},`+
 			`"albumUsers":[{"role":"editor","user":{"name":"Other","email":"other@example.com"}}]}`)
 	}
@@ -435,6 +435,9 @@ func TestScrubOriginalPath(t *testing.T) {
 		au := d["albumUsers"].([]any)[0].(map[string]any)
 		if got := au["user"].(map[string]any)["email"]; got != "" {
 			t.Errorf("%s: album user email = %v, want blank", path, got)
+		}
+		if got := d["password"]; got != "" {
+			t.Errorf("%s: password = %v, want blank", path, got)
 		}
 		if au["role"] != "editor" {
 			t.Errorf("%s: album user role = %v", path, au["role"])

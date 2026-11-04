@@ -1,7 +1,7 @@
-// Removal of server filesystem paths and user email addresses from JSON
-// documents, so share viewers don't learn the server's layout or its users'
-// logins. It applies to every JSON API response, so fields added in future
-// Immich versions are covered too.
+// Removal of server filesystem paths, user email addresses, and share
+// passwords from JSON documents, so share viewers don't learn the server's
+// layout, its users' logins, or a share's password. It applies to every JSON
+// API response, so fields added in future Immich versions are covered too.
 //
 //   - originalPath is reduced to its base name. The web UI displays it and
 //     reads the file extension from it, so the base name keeps both working.
@@ -12,6 +12,10 @@
 //   - Any string field named "email" is blanked. Immich includes the email
 //     address of every album user and asset owner (the login name for
 //     their Immich account). The web UI only shows it in avatar tooltips.
+//   - Any string field named "password" is blanked. Immich returns a
+//     shared link's password in plain text from shared-links/me once the
+//     visitor has logged in, so anyone holding the share cookie could read
+//     it. Only the owner's shared-link management pages read it.
 
 package proxy
 
@@ -48,7 +52,7 @@ func scrubValue(v any) {
 				switch {
 				case k == "originalPath":
 					t[k] = baseName(s)
-				case strings.HasSuffix(k, "Path"), k == "email":
+				case strings.HasSuffix(k, "Path"), k == "email", k == "password":
 					t[k] = ""
 				}
 				continue

@@ -57,7 +57,10 @@ The proxy narrows what reaches Immich:
   display and the file extension, and shows initials when
   `profileImagePath` is empty. Every `email` field is blanked too: Immich
   includes the email address (the Immich login) of each album user and
-  asset owner, and the web UI only shows it in avatar tooltips.
+  asset owner, and the web UI only shows it in avatar tooltips. Every
+  `password` field is blanked as well: after a visitor logs in,
+  `shared-links/me` returns the share's password in plain text, and only the
+  owner's shared-link pages use it.
   `Set-Cookie` is limited to `immich_shared_link_token`.
 - **Web allowlist.** GET/HEAD only: `/share/<key>[/photos][/<assetId>]`,
   `/_app/*`, and single-segment root files with asset extensions (`png`,
