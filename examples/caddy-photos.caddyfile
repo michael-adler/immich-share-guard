@@ -1,0 +1,69 @@
+# Caddy front end for immich-share-guard.
+#
+# Caddy terminates TLS for the public name and forwards everything to
+# immich-share-guard over plain HTTP. immich-share-guard allows only shared-link traffic
+# and forwards it to Immich. Caddy must not be able to reach Immich
+# directly. Only the proxy port should be reachable from Caddy's host.
+#
+# Replace these placeholders:
+#   photos.example.com the public host name
+#   192.168.1.20       the address immich-share-guard listens on (the Immich host)
+#   certificate paths  your certificate and key, if you don't let Caddy get one
+#
+# Run immich-share-guard on the Immich host with Caddy's address as the only
+# trusted proxy, for example (with Caddy's host at 192.168.1.10), in its .env:
+#
+#   SHARE_GUARD_UPSTREAM=http://127.0.0.1:2283
+#   SHARE_GUARD_LISTEN=192.168.1.20:2284
+#   SHARE_GUARD_TRUSTED_PROXIES=192.168.1.10
+#
+# Caddy picks the Caddyfile format from the .caddyfile extension, so
+# `caddy run --config caddy-photos.caddyfile` needs no --adapter flag.
+#
+# Plain HTTP is redirected to HTTPS automatically, so no separate port 80
+# site is needed.
+
+# Global options.
+{
+	servers {
+		timeouts {
+			# Large zip downloads can pause while Immich reads files. This is
+			# the time allowed for a write to the client to stall, not for the
+			# whole transfer. The default is 1 minute.
+			write_idle 5m
+		}
+	}
+}
+
+photos.example.com {
+	# Caddy gets and renews a certificate for the name on its own. To use an
+	# existing certificate instead, uncomment this.
+	#tls /etc/letsencrypt/live/photos.example.com/fullchain.pem /etc/letsencrypt/live/photos.example.com/privkey.pem
+
+	# Optional. Tells browsers to use HTTPS only for this name for a year.
+	# Enable it once HTTPS works.
+	#header Strict-Transport-Security "max-age=31536000"
+
+	# immich-share-guard sends JSON API responses uncompressed because it
+	# rewrites them, so compress them here. The default types include JSON,
+	# HTML, CSS, JavaScript and SVG. Responses that are already compressed are
+	# skipped. Photos and videos aren't included, so their byte ranges (used
+	# for video seeking) are untouched.
+	encode zstd gzip
+
+	# Uploads are off unless immich-share-guard runs with
+	# SHARE_GUARD_ALLOW_UPLOAD=true. Caddy has no request body limit by
+	# default. To set one, uncomment this.
+	#request_body {
+	#	max_size 1GB
+	#}
+
+	# Forward everything. immich-share-guard rejects whatever isn't share
+	# traffic, including the websocket.
+	#
+	# Caddy passes the public host name through as Host and also sends it as
+	# X-Forwarded-Host. It sets X-Forwarded-Proto itself, so Immich sees HTTPS
+	# and marks the share-password cookie Secure. It ignores X-Forwarded-*
+	# values sent by the client and sets its own, so nothing needs removing.
+	reverse_proxy 192.168.1.20:2284
+}

@@ -1,0 +1,768 @@
+{
+  "version": "3.3.5",
+  "routes": {
+    "DELETE /assets/{id}/video/stream/{sessionId}": {
+      "path id": {
+        "required": true,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "path sessionId": {
+        "required": true,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "permission": "asset.view",
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "GET /albums/{id}": {
+      "path id": {
+        "required": true,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "permission": "album.read",
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "GET /albums/{id}/map-markers": {
+      "path id": {
+        "required": true,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "permission": "album.read",
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "GET /assets/{id}": {
+      "path id": {
+        "required": true,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "permission": "asset.read",
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "GET /assets/{id}/original": {
+      "path id": {
+        "required": true,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "permission": "asset.download",
+      "query edited": {
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "GET /assets/{id}/thumbnail": {
+      "path id": {
+        "required": true,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "permission": "asset.view",
+      "query edited": {
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query size": {
+        "required": false,
+        "schema": {
+          "enum": [
+            "fullsize",
+            "original",
+            "preview",
+            "thumbnail"
+          ],
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "GET /assets/{id}/video/playback": {
+      "path id": {
+        "required": true,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "permission": "asset.view",
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "GET /assets/{id}/video/stream/main.m3u8": {
+      "path id": {
+        "required": true,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "permission": "asset.view",
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "GET /assets/{id}/video/stream/{sessionId}/{variantIndex}/playlist.m3u8": {
+      "header X-Immich-Hls-Pos": {
+        "required": false,
+        "schema": {
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "path id": {
+        "required": true,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "path sessionId": {
+        "required": true,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "path variantIndex": {
+        "required": true,
+        "schema": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "permission": "asset.view",
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "GET /assets/{id}/video/stream/{sessionId}/{variantIndex}/{filename}": {
+      "header X-Immich-Hls-Msn": {
+        "required": false,
+        "schema": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "path filename": {
+        "required": true,
+        "schema": {
+          "pattern": "^(init\\.mp4|seg_\\d+\\.m4s)$",
+          "type": "string"
+        }
+      },
+      "path id": {
+        "required": true,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "path sessionId": {
+        "required": true,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "path variantIndex": {
+        "required": true,
+        "schema": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "permission": "asset.view",
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "GET /server/config": {},
+    "GET /server/features": {},
+    "GET /server/media-types": {},
+    "GET /shared-links/me": {
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "GET /timeline/bucket": {
+      "permission": "asset.read",
+      "query albumId": {
+        "required": false,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "query bbox": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query isFavorite": {
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "query isTrashed": {
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query order": {
+        "required": false,
+        "schema": {
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "type": "string"
+        }
+      },
+      "query orderBy": {
+        "required": false,
+        "schema": {
+          "enum": [
+            "createdAt",
+            "takenAt"
+          ],
+          "type": "string"
+        }
+      },
+      "query personId": {
+        "required": false,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query tagId": {
+        "required": false,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "query timeBucket": {
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query userId": {
+        "required": false,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "query visibility": {
+        "required": false,
+        "schema": {
+          "enum": [
+            "archive",
+            "hidden",
+            "locked",
+            "timeline"
+          ],
+          "type": "string"
+        }
+      },
+      "query withCoordinates": {
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "query withPartners": {
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "query withStacked": {
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    },
+    "GET /timeline/buckets": {
+      "permission": "asset.read",
+      "query albumId": {
+        "required": false,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "query bbox": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query isFavorite": {
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "query isTrashed": {
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query order": {
+        "required": false,
+        "schema": {
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "type": "string"
+        }
+      },
+      "query orderBy": {
+        "required": false,
+        "schema": {
+          "enum": [
+            "createdAt",
+            "takenAt"
+          ],
+          "type": "string"
+        }
+      },
+      "query personId": {
+        "required": false,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query tagId": {
+        "required": false,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "query userId": {
+        "required": false,
+        "schema": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        }
+      },
+      "query visibility": {
+        "required": false,
+        "schema": {
+          "enum": [
+            "archive",
+            "hidden",
+            "locked",
+            "timeline"
+          ],
+          "type": "string"
+        }
+      },
+      "query withCoordinates": {
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "query withPartners": {
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "query withStacked": {
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    },
+    "POST /assets": {
+      "body multipart/form-data": {
+        "type": "object"
+      },
+      "body multipart/form-data field assetData": {
+        "format": "binary",
+        "type": "string",
+        "x-immich-required": true
+      },
+      "body multipart/form-data field duration": {
+        "maximum": 9007199254740991,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "body multipart/form-data field fileCreatedAt": {
+        "format": "date-time",
+        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$",
+        "type": "string"
+      },
+      "body multipart/form-data field fileModifiedAt": {
+        "format": "date-time",
+        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$",
+        "type": "string"
+      },
+      "body multipart/form-data field filename": {
+        "type": "string"
+      },
+      "body multipart/form-data field isFavorite": {
+        "type": "boolean"
+      },
+      "body multipart/form-data field livePhotoVideoId": {
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+        "type": "string"
+      },
+      "body multipart/form-data field metadata": {
+        "items": {
+          "properties": {
+            "key": {
+              "type": "string"
+            },
+            "value": {
+              "additionalProperties": {},
+              "type": "object"
+            }
+          },
+          "required": [
+            "key",
+            "value"
+          ],
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "body multipart/form-data field sidecarData": {
+        "format": "binary",
+        "type": "string"
+      },
+      "body multipart/form-data field visibility": {
+        "enum": [
+          "archive",
+          "hidden",
+          "locked",
+          "timeline"
+        ],
+        "type": "string"
+      },
+      "body multipart/form-data required": [
+        "fileCreatedAt",
+        "fileModifiedAt"
+      ],
+      "body required": true,
+      "header X-Immich-Checksum": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "permission": "asset.upload",
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "POST /download/archive": {
+      "body application/json": {
+        "type": "object"
+      },
+      "body application/json field archiveName": {
+        "type": "string"
+      },
+      "body application/json field assetIds": {
+        "items": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "body application/json field edited": {
+        "type": "boolean"
+      },
+      "body application/json required": [
+        "assetIds"
+      ],
+      "body required": true,
+      "permission": "asset.download",
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "POST /download/info": {
+      "body application/json": {
+        "type": "object"
+      },
+      "body application/json field albumId": {
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+        "type": "string"
+      },
+      "body application/json field archiveSize": {
+        "maximum": 9007199254740991,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "body application/json field assetIds": {
+        "items": {
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "body application/json field userId": {
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$",
+        "type": "string"
+      },
+      "body required": true,
+      "permission": "asset.download",
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "POST /shared-links/login": {
+      "body application/json": {
+        "type": "object"
+      },
+      "body application/json field password": {
+        "type": "string"
+      },
+      "body application/json required": [
+        "password"
+      ],
+      "body required": true,
+      "query key": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "query slug": {
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

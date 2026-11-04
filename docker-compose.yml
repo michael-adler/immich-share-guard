@@ -1,0 +1,21 @@
+# immich-share-guard in Docker, on the same host as Immich and the front end.
+#
+# The container uses the host's network, so the settings in .env work as they
+# do outside Docker: Immich at 127.0.0.1:2283 (the port Immich's own compose
+# file publishes), the proxy listening on 127.0.0.1:2284, and a front end on
+# this host as the only trusted proxy. See examples/immich-share-guard.env.
+
+services:
+  immich-share-guard:
+    build: .
+    image: immich-share-guard
+    container_name: immich-share-guard
+    restart: always
+    network_mode: host
+    env_file:
+      - .env
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
