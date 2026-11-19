@@ -74,10 +74,10 @@ The proxy narrows what reaches Immich:
   slugs, IDs, and share passwords. Web paths the proxy rejects don't count,
   since browsers routinely probe for files that don't exist.
 
-Allowed API routes (Immich 3.3.5):
+Allowed API routes (Immich 3.4.1):
 
 ```
-GET  server/config, server/features, server/media-types (public)
+GET  server/config, server/features, server/media-types, public/config (public)
 GET  shared-links/me                POST shared-links/login
 GET  albums/:id                     GET  albums/:id/map-markers
 GET  timeline/buckets               GET  timeline/bucket      (albumId required)
@@ -291,7 +291,7 @@ grep 'possible Immich API change' proxy.log
 2. For each difference, update `buildRoutes`, the deny maps, the body structs
    in `internal/proxy/body.go`, or `excludedShareRoutes`. A new parameter needs a decision:
    allow it only if the share page sends it.
-3. Replace `internal/proxy/testdata/immich-openapi-3.3.5.json` with the new spec (renamed),
+3. Replace `internal/proxy/testdata/immich-openapi-3.4.1.json` with the new spec (renamed),
    update `fixture` in `internal/proxy/drift_test.go`, then regenerate the
    reviewed shapes and rebuild:
    ```

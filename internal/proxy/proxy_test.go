@@ -47,6 +47,7 @@ func TestAllowedRoutes(t *testing.T) {
 		"/dark_skeleton.png",
 		"/manifest-icon-192.maskable.png",
 		"/api/server/media-types",
+		"/api/public/config",
 		"/apple-touch-icon.png",
 		"/site.webmanifest",
 	}

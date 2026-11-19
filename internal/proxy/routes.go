@@ -187,6 +187,8 @@ func buildRoutes(cfg Config) []*route {
 		{method: http.MethodGet, pattern: "server/features", public: true},
 		// Loaded at startup by the web app's upload manager, even without uploads.
 		{method: http.MethodGet, pattern: "server/media-types", public: true},
+		// Loaded at startup since Immich 3.4 (the route exists since 3.2).
+		{method: http.MethodGet, pattern: "public/config", public: true},
 
 		{method: http.MethodGet, pattern: "shared-links/me", noShareCheck: true},
 		{method: http.MethodPost, pattern: "shared-links/login", noShareCheck: true,

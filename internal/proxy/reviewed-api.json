@@ -1,5 +1,5 @@
 {
-  "version": "3.3.5",
+  "version": "3.4.1",
   "routes": {
     "DELETE /assets/{id}/video/stream/{sessionId}": {
       "path id": {
@@ -317,6 +317,7 @@
         }
       }
     },
+    "GET /public/config": {},
     "GET /server/config": {},
     "GET /server/features": {},
     "GET /server/media-types": {},
@@ -576,8 +577,7 @@
       },
       "body multipart/form-data field assetData": {
         "format": "binary",
-        "type": "string",
-        "x-immich-required": true
+        "type": "string"
       },
       "body multipart/form-data field duration": {
         "maximum": 9007199254740991,
@@ -638,6 +638,7 @@
         "type": "string"
       },
       "body multipart/form-data required": [
+        "assetData",
         "fileCreatedAt",
         "fileModifiedAt"
       ],

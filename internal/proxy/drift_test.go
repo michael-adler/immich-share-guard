@@ -17,7 +17,7 @@ import (
 	"time"
 )
 
-const fixture = "testdata/immich-openapi-3.3.5.json"
+const fixture = "testdata/immich-openapi-3.4.1.json"
 
 func readFixture(t *testing.T) []byte {
 	t.Helper()
